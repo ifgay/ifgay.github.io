@@ -3,139 +3,158 @@
 
 <head>
   <meta charset="UTF-8">
-  <script type="text/javascript" src="./plug/marked.js"></script>
-  <script type="text/javascript" src="./plug/editor.js"></script>
-  <script type="text/javascript" src="./plug/axios.js"></script>
-  <link rel="stylesheet" href="./css/editor.css">
-  <title>笔记-ADOG-note-join</title>
-  <style type="text/css">
-    body {
-      padding: 0;
-      margin: 0;
-      background-color: #f9f9f7;
-    }
-
-    .editor-wrapper {
-      max-width: 680px;
-      padding: 10px;
-      margin: 60px auto;
-    }
-
-    cmd {
-      color: white;
-      display: inline-block;
-      background-color: black;
-      border-radius: .3em;
-    }
-
-    .save_status {
-      display: none;
-    }
-
-    .danger {
-      color: red;
-    }
-
-    .success {
-      color: green;
-    }
-
-    .btn-primary:hover {
-      color: #fff;
-      background-color: #286090;
-      border-color: #204d74;
-    }
-
-    .btn.focus,
-    .btn:focus,
-    .btn:hover {
-      color: #333;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      color: #fff;
-      background-color: #337ab7;
-      border-color: #2e6da4;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 6px 12px;
-      margin-bottom: 0;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.42857143;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      -ms-touch-action: manipulation;
-      touch-action: manipulation;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background-image: none;
-      border: 1px solid transparent;
-      border-top-color: transparent;
-      border-right-color: transparent;
-      border-bottom-color: transparent;
-      border-left-color: transparent;
-      border-radius: 4px;
-    }
-
-    .controll {
-      float: right;
-    }
-  </style>
+  <title>笔记-ADOG-note-view</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+  <link rel="stylesheet" href="./css/dist.css">
 </head>
 
-<body>
-  <div class="editor-wrapper">
-    <textarea id="editor" placeholder="在这里输入一些内容 ...."></textarea>
-    <br>
-    <div>
-      <p class="controll">
-        <cmd>ctrl+s</cmd><strong>&nbsp;或者&nbsp;<a class="btn btn-primary save">保存文档</a></strong>
-      </p>
-      <br>
-      <p class="save_status danger">文档保存失败！原因：<span class="reason"></span></p>
-      <p class="save_status success">文档保存成功!文件：<span class="file"></span></p>
+<body ontouchstart>
+
+  <!-- 第一个tab -->
+  <script type="text/template" id="tab1_compile">
+    <div class="header_title">
+      <img src="./icon/back.svg" style="margin-left: 7px;">
+     <span class="h_tilt">2020年3月2日 晴 <img src="./icon/weather/sun.svg" alt=""> </span> 
+     <i class="weui-icon-search" style="font-size: 24px;margin-right: 7px;"></i>
+    </div>
+  </script>
+
+
+  <div class="weui-tab">
+    <div class="weui-tab__bd">
+      <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+      </div>
+      <div id="tab2" class="weui-tab__bd-item">
+        <div class="header_title">标题</div>
+      </div>
+      <div id="tab3" class="weui-tab__bd-item">
+        <div class="header_title">标题</div>
+      </div>
+    </div>
+
+    <div class="weui-tabbar" style="position: fixed;">
+      <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
+        <div class="weui-tabbar__icon">
+          <img src="./icon/note.svg" alt="">
+        </div>
+        <p class="weui-tabbar__label">日记</p>
+      </a>
+      <a href="#tab2" class="weui-tabbar__item">
+        <div class="weui-tabbar__icon">
+          <img src="./icon/trends.svg" alt="">
+        </div>
+        <p class="weui-tabbar__label">收藏</p>
+      </a>
+      <a href="#tab3" class="weui-tabbar__item">
+        <div class="weui-tabbar__icon">
+          <img src="./icon/tool.svg" alt="">
+        </div>
+        <p class="weui-tabbar__label">工具</p>
+      </a>
     </div>
   </div>
-  <script type="text/javascript">
 
-    var editor = new Editor();
-    editor.render();
+</body>
 
-    window.addEventListener("keydown", function (e) {
-      if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-        e.preventDefault();
-        ajax_submit()
+<script src="http://jqweui.com/dist/lib/jquery-2.1.4.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+<script src="./plug/fastclick.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="./plug/template-web.js"></script>
+<script>
 
+  let kit = {
+    getLocation: () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showErr);
+      } else {
+        $.toptip('浏览器不支持定位', 'error');
       }
-    }, false);
-    document.querySelector('.save').addEventListener('click', function (e) {
-      e.preventDefault();
-      ajax_submit()
-    })
-    function ajax_submit() {
-      axios.post('./php/push_file.php',{'edit':editor.value()}).then(function (back) {
-        document.querySelectorAll('.save_status').forEach(function (val) {
-          val.style.display = 'none'
-        })
-        if (back.data.code == 1) {
-          document.querySelector('.success').style.display = 'block'
-          document.querySelector('.file').innerHTML = back.data.file
-        } else {
-          document.querySelector('.danger').style.display = 'block'
-          document.querySelector('.reason').innerHTML = back.data.msg
+      function showPosition(position) {
+        console.log(position);
+        alert(position.coords.latitude,position,position.coords.longitude)
+        $.getJSON('http://api.map.baidu.com/geocoder/v2/?ak=71709218d45a706b9c7e3abc2f037b23&callback=?&location='
+          + position.coords.latitude + ',' + position.coords.longitude
+          + '&output=json&pois=1', function (res) {
+            //addressComponent => {city: "广州市", district: "天河区", province: "广东省", street: "广州大道", street_number: "中922号-之101-128"} 
+            console.log(res);
+          });
+      }
+      function showErr(error) {
+        let error_code_map={
+          1:"您拒绝了授权定位",
+          2:"获取不到当前位置信息",
+          3:"获取定位超时",
+          4:"获取定位出现异常错误"
         }
-      })
+        $.toptip(error_code_map[error.code]||'获取定位出现预期外错误','error')
+      }
 
     }
-  </script>
-</body>
+  }
+  $.template = template;
+  $(event_onload_handler => {
+    FastClick.attach(document.body);
+
+    //使用闭包保存作用域
+    function packet_data() {
+      let __local = {}
+      return {
+        set: (key, val) => {
+          return __local[key] = val
+        },
+        get: (key) => {
+          return __local[key]
+        },
+        save: (key, val) => {
+          localStorage.setItem(key, val)
+        },
+        read: (key) => {
+          localStorage.getItem(key)
+        }
+      }
+    }
+
+    let store = packet_data()
+
+    //加载配置文件
+    $.showLoading('加载配置文件...');
+    $.ajax('./php/config.json', {
+      method: 'get',
+      success: res => {
+        let base = Object.assign(kit, res)
+        setTimeout(() => {
+          $.hideLoading();
+          configNext.call(base, store);
+        }, 700);
+      }
+    })
+  })
+
+
+
+  //这里开始主函数
+  function configNext(store) {
+    tabOneRender.call(this, store)
+    tabTwoRender.call(this, store)
+    tabThreeRender.call(this, store)
+  }
+
+  function tabOneRender(store) {
+    this.getLocation()
+    store.set('name', 'pp')
+  }
+  function tabTwoRender(store) {
+    console.log(store.get('name'));
+  }
+  function tabThreeRender(store) {
+
+  }
+
+</script>
 
 </html>
