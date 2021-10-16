@@ -18,7 +18,11 @@
   <script type="text/template" id="tab1_compile">
     <div class="header_title">
       <img src="./icon/back.svg" style="margin-left: 7px;">
-     <span class="h_tilt">2020年3月2日 晴 <img src="./icon/weather/sun.svg" alt=""> </span> 
+     <span class="h_tilt">{{data.date}} {{data.weather}} 
+       
+      <img src="./icon/weather/sun.svg" alt=""> 
+    
+    </span> 
      <i class="weui-icon-search" style="font-size: 24px;margin-right: 7px;"></i>
     </div>
   </script>
@@ -69,31 +73,30 @@
 
   let kit = {
     getLocation: () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showErr);
-      } else {
-        $.toptip('浏览器不支持定位', 'error');
-      }
-      function showPosition(position) {
-        console.log(position);
-        alert(position.coords.latitude,position,position.coords.longitude)
-        $.getJSON('http://api.map.baidu.com/geocoder/v2/?ak=71709218d45a706b9c7e3abc2f037b23&callback=?&location='
-          + position.coords.latitude + ',' + position.coords.longitude
-          + '&output=json&pois=1', function (res) {
-            //addressComponent => {city: "广州市", district: "天河区", province: "广东省", street: "广州大道", street_number: "中922号-之101-128"} 
-            console.log(res);
-          });
-      }
-      function showErr(error) {
-        let error_code_map={
-          1:"您拒绝了授权定位",
-          2:"获取不到当前位置信息",
-          3:"获取定位超时",
-          4:"获取定位出现异常错误"
+      return new Promise((resolve) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showErr);
+        } else {
+          $.toptip('浏览器不支持定位', 'error');
         }
-        $.toptip(error_code_map[error.code]||'获取定位出现预期外错误','error')
-      }
-
+        function showPosition(position) {
+          resolve(position.coords)
+        }
+        function showErr(error) {
+          let error_code_map = {
+            1: "您拒绝了授权定位",
+            2: "获取不到当前位置信息",
+            3: "获取定位超时",
+            4: "获取定位出现异常错误"
+          }
+          $.toptip(error_code_map[error.code] || '获取定位出现预期外错误', 'error')
+          resolve(-1)
+        }
+      })
+    },
+    nowDate:()=>{
+      let now=new Date()
+      return `${now.getFullYear()}年${now.getMonth()+1}月${now.getDay()}日`
     }
   }
   $.template = template;
@@ -145,9 +148,27 @@
   }
 
   function tabOneRender(store) {
-    this.getLocation()
-    store.set('name', 'pp')
+    let that=this
+
+    if(position!=-1){
+        data=Object.assign(position,{
+        date:kit.nowDate()
+      })
+
+      let htm = $.template('tab1_compile', {
+        data: position
+      })
+      $('#tab1').html(htm)
+      }
+    
+    this.getLocation().then(position => {
+      alert(position)
+    })
   }
+
+
+
+
   function tabTwoRender(store) {
     console.log(store.get('name'));
   }
