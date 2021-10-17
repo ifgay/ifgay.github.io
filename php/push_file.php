@@ -1,8 +1,26 @@
 <?php
 
+ini_set("display_errors", "On");//打开错误提示
+
+ini_set("error_reporting",E_ALL);//显示所有错误
+$count_file=file_get_contents('count_file.txt');
+$notes_content=file_get_contents('notes.json');
+
+$notes_obj=json_decode($notes_content);
+
+$now=date("Y-m-d");
+
+foreach($notes_obj->fileList as $key=>$val){
+    echo $val->file;
+}
+die();
+
 
 $edit=file_get_contents("php://input");
-$data=json_decode($edit)->edit;
+$get_content=json_decode($edit);
+$data=$get_content->edit;
+$title=$get_content->title;
+$desc=$get_content->desc;
     function count_file_dir($url){
         $num=0;
         $arr = glob($url);

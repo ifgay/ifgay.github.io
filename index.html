@@ -14,23 +14,61 @@
 
 <body ontouchstart>
 
-  <!-- 第一个tab -->
-  <script type="text/template" id="tab1_compile">
-    <div class="header_title">
+
+
+    <!-- <div class="header_title" style="display:none" id='tabOneHead'>
       <img src="./icon/back.svg" style="margin-left: 7px;">
-     <span class="h_tilt">{{data.date}} {{data.weather}} 
-       
-      <img src="./icon/weather/sun.svg" alt=""> 
-    
+     <span class="h_tilt flex_center">{{data.date}}
+      <span class='wheather_type'>{{data.weather}} </span> 
+      <img src="./icon/weather/sun.svg" class='weather_icon' alt=""> 
     </span> 
-     <i class="weui-icon-search" style="font-size: 24px;margin-right: 7px;"></i>
+     <i class="weui-icon-search btn_search" style="font-size: 24px;margin-right: 7px;"></i>
+    </div> -->
+  <!-- 列表页面 -->
+  <!-- 第一个tab -->
+  <script type="text/template" id="tab1CompileItem">
+
+  <div class="weui-panel">
+    <div class="weui-panel__hd"><a href="https://github.com/ifgay/ifgay.github.io/php/{{data.file}}" style="text-decoration: underline;color:var(--info);">git:./php/{{data.file}}</a> </div>
+    <div class="weui-panel__bd">
+      <div class="weui-media-box weui-media-box_text">
+        <h4 class="weui-media-box__title">{{data.title}}</h4>
+        <p class="weui-media-box__desc" style="line-height:1.4;">{{data.desc}}</p>
+        <ul class="weui-media-box__info">
+          <li class="weui-media-box__info__meta">{{data.date}}</li>
+          <li class="weui-media-box__info__meta weui-media-box__info__meta_extra"><a href="https://github.com/ifgay" style="color:#cecece;">ifgay</a> </li>
+        </ul>
+      </div>
     </div>
+  </div>
+
   </script>
 
 
   <div class="weui-tab">
     <div class="weui-tab__bd">
       <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+
+
+        <!-- 搜索栏 -->
+        <div class="weui-search-bar fixed_top" style="width: 100%;z-index: 90809;" id="searchBar">
+          <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+              <i class="weui-icon-search"></i>
+              <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+              <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+            <label class="weui-search-bar__label" id="searchText">
+              <i class="weui-icon-search"></i>
+              <span>搜索</span>
+            </label>
+          </form>
+          <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        </div>
+        <br>
+        <br>
+
+
       </div>
       <div id="tab2" class="weui-tab__bd-item">
         <div class="header_title">标题</div>
@@ -94,9 +132,9 @@
         }
       })
     },
-    nowDate:()=>{
-      let now=new Date()
-      return `${now.getFullYear()}年${now.getMonth()+1}月${now.getDay()}日`
+    nowDate: () => {
+      let now = new Date()
+      return `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDay()}日`
     }
   }
   $.template = template;
@@ -126,10 +164,39 @@
 
     //加载配置文件
     $.showLoading('加载配置文件...');
-    $.ajax('./php/config.json', {
+    $.ajax({
+      url: '/php/config.json',
       method: 'get',
       success: res => {
         let base = Object.assign(kit, res)
+        //加载日记页面
+        $.ajax({
+          method: 'get',
+          url: '/php/count_file.txt',
+          success: count => {
+            console.log(count);
+            store.set('count_file', parseInt(count))
+          }
+        }).then(next => {
+          //加载首页列表 5 个
+          $.ajax({
+            method: 'get',
+            url: './php/notes.json',
+            success: note => {
+              console.log(note);
+              store.set('note', note)
+            }
+          }).then(next => {
+            let length = store.get('count_file') < 6 ? store.get('count_file') : 6;
+            let arr = store.get('note')['fileList'];
+            for (let i = 0; i < length; i++) {
+              console.log(arr[i]);
+              append_one_note(arr[i])
+              
+            }
+          })
+        })
+
         setTimeout(() => {
           $.hideLoading();
           configNext.call(base, store);
@@ -138,6 +205,27 @@
     })
   })
 
+  let source_map = {
+    wheatherImg: [
+      '',
+      `./icon/weather/sun.svg`,
+      `./icon/weather/rain.svg`,
+      `./icon/weather/cloud.svg`,
+    ]
+  }
+
+  let tag_map = {
+
+  }
+
+
+  function append_one_note(data) {
+    //添加一个item 
+    let htm = $.template('tab1CompileItem', {
+      data: data
+    })
+    $('#tab1').append(htm)
+  }
 
 
   //这里开始主函数
@@ -148,21 +236,27 @@
   }
 
   function tabOneRender(store) {
-    let that=this
+    let that = this
+    let data = Object.assign(that.defaultPosition, {
+      date: kit.nowDate()
+    })
 
-    if(position!=-1){
-        data=Object.assign(position,{
-        date:kit.nowDate()
-      })
 
-      let htm = $.template('tab1_compile', {
-        data: position
-      })
-      $('#tab1').html(htm)
-      }
-    
+
+
+
+    //事件
+    $('.btn_search').click(eve => {
+      $('#searchBar').fadeToggle()
+      $('#tabOneHead').fadeOut()
+    })
+
+
+
     this.getLocation().then(position => {
-      alert(position)
+      if (position != -1) {
+        //
+      }
     })
   }
 
