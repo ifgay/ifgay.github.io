@@ -1,9 +1,0 @@
-{
-    "repository":"https://github.com/ifgay/ifgay.github.io.git",
-    "homePage" : "ifgay.github.io",
-    "defaultPosition":{
-        "city":"楚雄",
-        "wheather":"晴",
-        "temperature":"15"
-    }
-}
