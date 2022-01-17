@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hello!popbot</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="doc.css">
+
+</head>
+
+<body>
+
+<div class="nav_lef">
+  <li> <a href="#controll">●控制</a></li>
+  <li><a href="#log">●日志</a></li>
+  <li><a href="#study">●教程</a></li>
+  <li> <a href="#report">●反馈</a></li>
+  <li> <a href="#react">●激活</a></li>
+</div>
+<div class="nav_rig">
+  <h1 id="controll">#控制</h1>
+
+  <div class="card" id="eio3">
+    <span class="flex_bett">
+      <span class="flex_start">
+             &nbsp;
+      <img src="./icon/sc.svg">
+      &nbsp;自动发送消息(单窗口)
+      </span>
+      <span id="cont_run">
+        <img src="./icon/run.svg" class="trik_running" title="开始">
+        <img src="./icon/stop.svg" class="stop_running" title="停止">
+      </span>
+    </span>
+    <hr color="#aaa">
+    <p>
+      自动发送固定消息,模拟操作为:
+      1、获取消息
+      <br>
+      2、粘贴消息内容
+      <br>
+      3、回车发送;
+      <br>
+      和此操作相同的聊天软件均可使用.编辑词库,调整速率<a href="#" id="open_to_config_for_1">点击配置</a>
+    </p>
+
+    <div class="config_bg" id="bg_eio3"  open='0'>
+      <div class="config_body">
+        <form id="card_for_1_config_data" action="" method="post">
+          发送频率:<input type="number" name="frq" placeholder="最小1秒">
+          <br>
+          <br>
+          词库编辑:(请使用 回车 分割消息)
+          <br>
+          <br>
+          <textarea name="char_content"  cols="50" rows="4" spellcheck="false">
+            你
+          </textarea>
+          <p style="text-align: center;">
+            <span class="save_btn" pasfunc='saveConfigFileby1'   formid='eio3'>保存并关闭</span>
+          </p>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="card" id="eio4">
+    <span class="flex_bett">
+      <span class="flex_start">
+             &nbsp;
+      <img src="./icon/sc.svg">
+      &nbsp;eio3多窗口版
+      </span>
+      <span id="cont_run">
+        <img src="./icon/run.svg" class="trik_running" title="开始">
+        <img src="./icon/stop.svg" class="stop_running" title="停止">
+      </span>
+    </span>
+    <hr color="#aaa">
+    <p>
+      自动发送固定消息,模拟操作与单窗口一致,不同点为适应了多窗口模式。
+      <br>
+      和此操作相同的聊天软件均可使用;编辑词库,调整速率,录入聊天位置<a href="#" id="open_to_config_for_2">点击配置</a>
+    </p>
+
+    <div class="config_bg" id="bg_eio4"  open='0'>
+      <div class="config_body">
+        <form id="card_for_1_config_data" action="" method="post">
+          <br>
+          多窗口位置设置 <a class="add_posi txt_info">添加位置</a> <a class="del_posi txt_danger">清除位置</a>
+          <h1 class="tip_beg_record">
+            
+          </h1>
+          <p class="window_posi">
+          </p>
+           是否开启词库随机模式  <input type="radio" name="random_mod" value="1" id="yes_random_mod" ><label for="yes_random_mod">是</label> <input type="radio" name="random_mod" value="0" id="no_random_mod"><label for="no_random_mod">否</label>
+           <br>
+          <br>
+          发送频率:<input type="number" name="freq" placeholder="最小1秒">
+          <br>
+          窗口切换间隔(一般情况下不更改):<input type="number" name="space_time" value="1.5" placeholder="最小1秒">
+          <br>
+          <br>
+          词库编辑:(请使用 回车 分割消息) 与单窗口模式公用
+          <br>
+          <br>
+          <textarea name="char_content"  cols="50" rows="4" spellcheck="false">
+          </textarea>
+          <p style="text-align: center;">
+            <span class="save_btn" pasfunc='saveConfigFileby2'   formid='eio4'>保存并关闭</span>
+          </p>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+  <h1 id="log">#日志</h1>
+  <br>
+  <div class="log_box">
+    <code>></code>
+  </div>
+
+  <h1 id="study">#教程</h1>
+  <h3>
+    自动发送消息(单窗口)
+  </h3>
+  <hr>
+  <iframe src="http://player.bilibili.com/player.html?aid=807742763&bvid=BV1E34y1z7cm&cid=469459775&page=1" scrolling="no" border="0"  style="width: 100%;margin: 0 auto; height: 200px;" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+<br>
+<div>
+  <li style="list-style: square;">第一步:打开你的软件的聊天窗口</li>
+  <li style="list-style: square;">第二步:打开本软件点击运行(绿色三角按钮)</li>
+  <li style="list-style: square;">第三步:迅速返回聊天窗口并且用鼠标锁定光标位置</li>
+  <li style="list-style: square;">第四步:切回本软件点击停止</li>
+</div>
+  <h1 id="report">#反馈</h1>
+  <br>
+  <div class="flex_center">
+    <div>
+      <img src="./wxcode.jpg" style="width: 100px;height: 100px;">
+      <br>
+      <a><span style="color: var(--danger);">加我领取激活码</span></a>
+      <br>
+    </div>
+  </div>
+  <h1 id="react">#激活</h1>
+  <br>
+  <div>
+    <div class="flex_center" style="width: 100%;">
+      <input type="text" class="val_react_code" placeholder="输入激活码">&nbsp;&nbsp;<span style="color: var(--info);" class="save_react_code">保存</span>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>
+<div class="notify_box">
+  <img src="./icon/off.svg" class="nb_ico">
+  <div class="nb_title">
+  </div>
+  <div class="nb_body">
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aunt | ?</title>
+    <link rel="stylesheet" href="../../src/bs.min.css">
+    <link rel="stylesheet" href="../../src/mobileSelect.css">
+    <script src="../../src/jq.min.js"></script>
+    <script src="../../src/bs.min.js"></script>
+    <script src="../../src/mobileSelect.js"></script>
+    <style>
+        .flex_center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <svg t="1638796054245" class="icon" viewBox="0 0 1484 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="2231" width="64" height="64">
+            <path
+                d="M205.340248 239.863172c-179.2 8.509793-278.598621 220.795586-140.676414 358.682483 189.157517 189.157517 547.239724 47.916138 547.239725 47.916138S743.858317 278.951724 564.022731 99.186759C426.135834-38.735448 233.12949 46.04469 205.375559 239.863172"
+                fill="#FF7062" p-id="2232"></path>
+            <path
+                d="M1274.290317 657.761103c-45.903448-109.003034-198.550069-118.395586-251.727448 1.059311-72.915862 163.84 94.949517 351.090759 94.949517 351.090758s255.081931-8.686345 324.396138-164.369655c53.21269-119.454897-42.548966-218.217931-167.618207-187.780414"
+                fill="#FF7062" p-id="2233"></path>
+        </svg>
+
+        <div class="form-group">
+            <label>选择一个时间</label>
+            <input type="text" class="form-control" id="time" placeholder="选择时间">
+            <br>
+            <br>
+            <button class="btn-info form-control flex_center add">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
+                </svg>
+                &nbsp;
+                添加
+            </button>
+        </div>
+        <ul class="history">
+
+        </ul>
+    </div>
+    <script>
+        $(function () {
+            $('.add').click(function () {
+                addRecord($('#time').val())
+            })
+        })
+
+        function addRecord(val) {
+            let data = localStorage.getItem('aunt_data') || '[]'
+            data = JSON.parse(data)
+            if (!Array.isArray(data)) { data = [] }
+            data.push(val)
+            localStorage.setItem('aunt_data', JSON.stringify(data))
+            render()
+        }
+
+
+        function render() {
+            let data = localStorage.getItem('aunt_data') || '[]'
+            data = JSON.parse(data)
+            $('.history').html('')
+            data.forEach(li => {
+                $('.history').append(`<li>${li}</li>`)
+            })
+
+        }
+        render()
+        $('.add')
+        var years = [];
+        var month = [];
+        var day = [];
+        var myDate = new Date();
+        myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+        myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+        myDate.getDate();
+        var _data = [];
+        for (i = 0; i < myDate.getFullYear() - 1980; i++) {
+            //年
+            var obj = {};
+            var yer = 1980 + i + 1;
+            obj.value = 1980 + i + 1;
+            var _data2 = [];
+            for (n = 0; n < 12; n++) {
+                //月
+                var obj2 = {};
+                if (n < 9) {
+                    obj2.value = '0' + (n + 1);
+                } else {
+                    obj2.value = n + 1;
+                }
+                var _data3 = [];
+                if (n == 1) {
+                    var cond1 = yer % 4 == 0;  //条件1：年份必须要能被4整除
+                    var cond2 = yer % 100 != 0;  //条件2：年份不能是整百数
+                    var cond3 = yer % 400 == 0;
+                    var cond = cond1 && cond2 || cond3;
+                    //闰年
+                    if (cond) {
+                        for (y = 0; y < 29; y++) {
+                            //日
+                            var obj3 = {};
+                            if (y < 9) {
+                                obj3.value = '0' + (y + 1);
+                            } else {
+                                obj3.value = y + 1;
+                            }
+                            _data3.push(obj3)
+                        }
+                    } else {
+                        for (y = 0; y < 28; y++) {
+                            //日
+                            var obj3 = {};
+                            if (y < 9) {
+                                obj3.value = '0' + (y + 1);
+                            } else {
+                                obj3.value = y + 1;
+                            }
+                            _data3.push(obj3)
+                        }
+                    }
+                } else if (n == 0 || n == 2 || n == 4 || n == 6 || n == 7 || n == 9 || n == 11) {
+                    for (y = 0; y < 31; y++) {
+                        //日
+                        var obj3 = {};
+                        if (y < 9) {
+                            obj3.value = '0' + (y + 1);
+                        } else {
+                            obj3.value = y + 1;
+                        }
+                        _data3.push(obj3)
+                    }
+                } else {
+                    for (y = 0; y < 30; y++) {
+                        //日
+                        var obj3 = {};
+                        if (y < 9) {
+                            obj3.value = '0' + (y + 1);
+                        } else {
+                            obj3.value = y + 1;
+                        }
+                        _data3.push(obj3)
+                    }
+                }
+                obj2.childs = _data3;
+                _data2.push(obj2);
+            }
+            obj.childs = _data2;
+            _data.push(obj)
+        }
+        var mobileSelect1 = new MobileSelect({
+            trigger: '#time',
+            title: '日期选择',
+            wheels: [
+                { data: _data }
+            ],
+            transitionEnd: function (indexArr, data) {
+
+            },
+            callback: function (indexArr, data) {
+
+                $("#time").val(data[0].value + '-' + data[1].value + '-' + data[2].value)
+            }
+        });
+        $('#time').click(function (e) {
+            e.preventDefault()
+        })
+        $('.wheel:nth-child(1) li').each((_, ele) => {
+            $(ele).text() == myDate.getFullYear() ? $(ele).trigger('click') : null
+        })
+        $('.wheel:nth-child(2) li').each((_, ele) => {
+            $(ele).text() == myDate.getMonth() + 1 ? $(ele).trigger('click') : null
+        })
+        $('.wheel:nth-child(3) li').each((_, ele) => {
+            $(ele).text() == myDate.getDate() ? $(ele).trigger('click') : null
+        })
+
+
+
+    </script>
+
+</body>
+
+</html>

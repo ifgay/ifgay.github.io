@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: SourceCodePro !important;
+}
+
+.recent{
+    min-height: 10vw;
+}
+
+.process_out{
+    width: 80vw;
+    height: 20px;
+    background-color: white;
+    border: #aaa solid 1px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    line-height: 20px;
+}
+.process_out .proce_say{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+}
+.process_in{
+    background-color: var(--info);
+    height: 20px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    left: 0;
+    width: 0%;
+}
+:root {
+    --mark: #28a745;
+    --bg:white;
+    --warning:#ffc107;
+    --info:#007bff;
+}
+
+@font-face {
+    font-family: SourceCodePro;
+    src: url('./SourceCodePro.woff2');
+}
+
+.mark{
+    background-color: var(--warning) !important;
+    display: inline;
+    width: auto;
+    border-radius: 4px;
+}
+
+body {
+    background-color: white;
+    color: black;
+    overflow: hidden;
+}
+
+ul li {
+    list-style: none;
+   
+}
+
+
+.top_box{
+    width: 38px;
+    font-size: 38px;
+    height: 38px;
+    background-color:#fafafa;
+    color: rgb(63, 63, 63);
+    position: fixed;
+    bottom: 14vw;
+    right: 2vw;
+    text-align: center;
+    line-height: 48px;
+    display: none;
+}
+
+.txt_center {
+    text-align: center;
+}
+
+.nav_link a {
+    color: var(--mark);
+    text-decoration: none;
+}
+
+.nav_link {
+
+    color: var(--mark);
+}
+
+.loading {
+    height: 90px;
+    width: 40px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+}
+body>.list{
+    width: 94%;
+    height:  calc(100vh - 26vw);
+    margin: 0 auto;
+    left: 3%;
+    overflow: scroll;
+    position: fixed;
+    top: 13vw;
+}
+
+.page{
+    text-indent: 2em;
+    word-break: break-all;
+}
+.footer{
+    position: fixed;
+    bottom: 0;
+    height: 13vw;
+    background-color: #fafafa;
+    width: 100%;
+    border-top:1px #eee solid;
+}
+.footer .search_input{
+    width: 80vw;
+    height: 10vw;
+    border: 1px solid #eee;
+    outline: none;
+    padding-left: 3vw;
+    border-radius: 15px;
+}
+.header{
+    height: 13vw;
+    position: fixed;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    box-sizing: border-box;
+    top: 0;
+    width: 100%;
+    left: 0;
+    
+    background-color: #fafafa;
+    border-bottom:1px #eee solid;
+}
+.flex_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex_between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
