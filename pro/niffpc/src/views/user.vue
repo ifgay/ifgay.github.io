@@ -132,7 +132,7 @@ export default {
       verifyDialogVisible: false,
       verifyCodeLoading: false,
       verifyId: 0,
-      second: 60,
+      second: 120,
       form: {
         nikname: "",
         user_hd: 1,
@@ -170,7 +170,7 @@ export default {
       this.axios.get(this.host + "index/set_user_hd?user_hd=" + i);
     },
     verifyMailAddr() {
-      this.second = 60;
+      this.second = 120;
       clearInterval(secondClock);
       secondClock = setInterval(() => {
         if (that.second < 0) {
@@ -183,6 +183,11 @@ export default {
       this.axios.get(this.host + `index/get_verify_id`).then((res) => {
         if (res.success) {
           that.verifyId = res.data.id;
+        }else{
+          that.$message({
+            message:res.mes,
+            type:'error'
+          })
         }
       });
     },

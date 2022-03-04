@@ -6,7 +6,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 Vue.config.productionTip = false
-Vue.prototype.host='http://localhost/index.php/niffpc/'
+if(process){
+  Vue.prototype.host='http://localhost/index.php/niffpc/'
+}else{
+  Vue.prototype.host='http://39.108.216.184//index.php/niffpc/'
+}
 Vue.prototype.publicPath='http://39.108.216.184'
 Vue.prototype.axios=axios
 

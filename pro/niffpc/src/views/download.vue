@@ -1,22 +1,32 @@
 <template>
   <div
     class="download_app infinite-list"
-    v-infinite-scroll="load"
+    v-infinite-scroll="getFeList"
     infinite-scroll-disabled="disabled"
   >
+    <el-empty
+      :image-size="200"
+      v-if="list.length == 0"
+      description="没有找到相关数据"
+    ></el-empty>
     <el-row :gutter="12" v-for="(arr, index) in list" :key="index">
       <el-col
         :span="8"
         v-for="(item, key) in arr"
         :key="key"
-        @click.native="$router.push({name:'appview',params : {id:item.fe_id}})"
+        @click.native="
+          $router.push({ name: 'appview', params: { id: item.fe_id } })
+        "
       >
         <el-card
           shadow="hover"
           @mouseover.native="nowHover = `${index},${key}`"
         >
           <div class="flex_center">
-            <img :src="`./icon/app-ico/${item.fe_ico}.svg`" style="margin-right: 20px" />
+            <img
+              :src="`./icon/app-ico/${item.fe_ico}.svg`"
+              style="margin-right: 20px"
+            />
             <span class="title_app">
               <h5 style="display: inline">
                 {{ item.fe_name }}
@@ -30,9 +40,15 @@
                 <span v-if="nowHover == `${index},${key}`">
                   <el-button type="success" size="small" round>下载</el-button>
                 </span>
-                <small v-if="nowHover != `${index},${key}`">{{
-                  item.fe_desc
-                }}</small>
+                <small
+                  v-if="nowHover != `${index},${key}`"
+                  style="
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                  "
+                  >{{ item.fe_desc }}</small
+                >
               </div>
             </span>
           </div>
@@ -45,14 +61,17 @@
   </div>
 </template>
 <script>
+let intval;
+let that;
 export default {
   data() {
     return {
       nowHover: "",
       count: 123,
       loading: false,
-      page: 0,
+      page: 1,
       disabled: false,
+      isEmpty: false,
       list: [
         [
           // {
@@ -64,21 +83,41 @@ export default {
       ],
     };
   },
-  computed: {},
-  methods: {
-    load() {
-      this.page++
-      this.getFeList(this.page);
+  computed: {
+    keywords() {
+      return this.$store.state.keywords;
     },
-    getFeList(page) {
-      let that = this;
+  },
+  created() {
+    that = this;
+    this.$store.state.keywords = "";
+  },
+  watch: {
+    keywords(n, o) {
+      clearInterval(intval);
+      intval = setTimeout(() => {
+        (that.page = 1), (that.list = []);
+        that.getFeList();
+      }, 1000);
+    },
+  },
+  methods: {
+    getFeList() {
       that.disabled = true;
       that.loading = true;
       this.axios
-        .get(this.host + `vitor/get_fe_list?page=${page}&size=18`)
+        .get(
+          this.host +
+            `vitor/get_fe_list?page=${this.page}&size=18&keywords=${that.keywords}`
+        )
         .then((res) => {
           that.disabled = false;
           that.loading = false;
+          if (res.data.length == 0 && that.page == 1) {
+            return (that.list = []);
+          }
+          that.page++;
+
           if (res.data.length < 18) {
             that.disabled = true;
           }

@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0d83ad"],{"79d9":function(n,e,l){"use strict";l.r(e);var t=function(){var n=this,e=n.$createElement,l=n._self._c||e;return l("div",[n._v("hell ")])},u=[],c=l("2877"),a={},d=Object(c["a"])(a,t,u,!1,null,null,null);e["default"]=d.exports}}]);
+//# sourceMappingURL=chunk-2d0d83ad.1775e774.js.map

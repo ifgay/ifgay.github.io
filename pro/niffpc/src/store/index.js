@@ -10,7 +10,8 @@ export default new Vuex.Store({
       user_hd:1,
       is_truely:0,
       nikname:''
-    }
+    },
+    keywords:'',
   },
   mutations: {
   },

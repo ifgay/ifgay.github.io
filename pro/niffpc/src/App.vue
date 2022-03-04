@@ -31,8 +31,7 @@
         </span>
         <p
           :style="{
-            color:
-              muteActiveIndex == index ? 'var(--main)' : 'var(--black)',
+            color: muteActiveIndex == index ? 'var(--main)' : 'var(--black)',
           }"
         >
           {{ item.name }}
@@ -118,7 +117,7 @@
             ></i>
             {{
               $store.state.userInfo.nikname
-                ? $store.state.userInfo.nikname.slice(0, 4) + "**"
+                ? $store.state.userInfo.nikname
                 : "登录"
             }}</span
           >
@@ -192,7 +191,7 @@
   </div>
 </template>
 <script>
-let that
+let that;
 import search from "./components/search.vue";
 export default {
   components: {
@@ -246,7 +245,11 @@ export default {
     };
   },
   methods: {
-    searchAct(v) {},
+    searchAct(v) {
+      if (this.$route.name != "download" && this.$route.name != "script") {
+        this.$router.push("download");
+      }
+    },
     exitLogin() {
       localStorage.removeItem("token");
       //this.axios.get(this.host + "index/test")
@@ -285,6 +288,11 @@ export default {
                 localStorage.setItem("token", res.data.token);
                 that.loginDialogVisible = false;
                 that.getUserInfo();
+              } else {
+                that.$message({
+                  type: "error",
+                  message: res.mes,
+                });
               }
             });
         }
@@ -299,7 +307,10 @@ export default {
               if (res.success) {
                 that.loginAct();
               } else {
-                that.$message(res.mes);
+                that.$message({
+                  type: "error",
+                  message: res.mes,
+                });
               }
             });
         }
@@ -307,7 +318,8 @@ export default {
     },
   },
   created() {
-    that=this
+    that = this;
+
     this.axios.interceptors.request.use(
       function (config) {
         config.headers.Token = localStorage.getItem("token") || "-9";
@@ -325,17 +337,15 @@ export default {
         if (data && data.success) {
           return response.data;
         } else {
+
+
           if (data.type && data.type == "NO_LOGIN") {
             if (response.request.responseURL.indexOf("get_user_info") == -1) {
               that.loginDialogVisible = true;
+              throw new Error()
             }
           }
-          if (data.type && data.type == "ERROR_PWD") {
-            that.$message({
-              type: "error",
-              message: "密码错误",
-            });
-          }
+
           if (data.type && data.type == "NO_SIGNUP") {
             that
               .$confirm("该邮箱尚未注册, 是否完成注册?", "提示", {
@@ -352,7 +362,10 @@ export default {
                   message: "已取消注册",
                 });
               });
+               throw new Error()
           }
+
+
         }
         return response.data;
       },
@@ -369,6 +382,7 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  cursor: default;
 }
 body {
   overflow: hidden;
@@ -384,6 +398,32 @@ li {
   --black: #2c2c2c;
   --light: #fff;
 }
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+// 滚动条滑槽样式
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+// 滚动条样式
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #ddd;
+  -webkit-box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #999;
+}
+// 浏览器失焦的样式
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 0, 0, 0.4);
+}
+
 .flex_center {
   display: flex;
   justify-content: center;
@@ -504,7 +544,7 @@ li {
   height: 24px;
   border-radius: 100%;
 }
-.fill_box{
+.fill_box {
   min-width: 100%;
   min-height: 100%;
 }

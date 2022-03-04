@@ -1,11 +1,20 @@
 <template>
   <div
     class="search_box"
-    :style="{ border: isFocus ? '2px solid var(--main)' : '2px solid var(--light)',background:isFocus ? 'var(--light)' : 'var(--lime)' }"
+    :style="{
+      border: isFocus ? '2px solid var(--main)' : '2px solid var(--light)',
+      background: isFocus ? 'var(--light)' : 'var(--lime)',
+    }"
   >
-    <input type="text" @focus="isFocus = true" @blur="isFocus = false" :placeholder="placeholder" v-model="value" />
+    <input
+      type="text"
+      @focus="isFocus = true"
+      @blur="isFocus = false"
+      :placeholder="placeholder"
+      v-model="$store.state.keywords"
+    />
 
-    <i class="el-icon-search" @click="$emit('submit',value)"></i>
+    <i class="el-icon-search" @click="$emit('submit', value)"></i>
   </div>
 </template>
 
@@ -14,12 +23,12 @@ export default {
   data() {
     return {
       isFocus: false,
-      value:'',
+      value: "",
     };
   },
-  props:{
-          placeholder:String,
-  }
+  props: {
+    placeholder: String,
+  },
 };
 </script>
 

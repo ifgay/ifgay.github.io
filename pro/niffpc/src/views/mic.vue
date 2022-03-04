@@ -122,6 +122,24 @@ export default {
           if (that.$store.state.userInfo.is_vip) {
             that.authFade();
           } else {
+
+                that
+                  .$confirm(
+                    `该脚本应用需要会员才能使用,累计充值1000蘑菇币可获得会员`,
+                    "提示",
+                    {
+                      confirmButtonText: "好的",
+                      showCancelButton: false,
+                      type: "info",
+                      beforeClose: (action, vo, done) => {
+                        that.$router.go(-1)
+                        done()
+                      },
+                    }
+                  )
+
+
+
           }
         }
         if (res.data.mic_price == 0) {

@@ -35,9 +35,9 @@
         "src":"http://39.108.216.184/static/popbot-1.2.zip"
     },
     {
-        "icon":"./icon/note.svg",
-        "title":"笔记",
-        "src":"./note"
+        "icon":"./icon/studyend.svg",
+        "title":"毕设",
+        "src":"./pro/niffpc/dist"
     },
     {
         "icon":"./icon/note.svg",

@@ -2,7 +2,7 @@
   <div v-infinite-scroll="getMicList" infinite-scroll-disabled="disabled">
 
     <el-row :gutter="12">
-      <p>最近使用</p>
+      <el-empty :image-size="200" v-if="micAppList.length==0" description='没有找到相关数据'></el-empty>
       <el-col
         :span="20"
         :offset="2"
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+let intval
+let that
 export default {
   data() {
     return {
@@ -70,13 +72,31 @@ export default {
       ],
     };
   },
+  computed:{
+    keywords(){
+      return this.$store.state.keywords
+    }
+  },
+  watch:{
+        keywords(n,o){
+      clearInterval(intval)
+      intval=setTimeout(()=>{
+        that.page=1,
+        that.micAppList=[]
+        that.getMicList()
+      },1000)
+    }
+  },
+  created(){
+    that=this
+    this.$store.state.keywords=''
+  },
   methods: {
-    getMicList(page){
-  let that = this;
+    getMicList(){
       that.disabled = true;
       that.loading = true;
       this.axios
-        .get(this.host + `vitor/get_mic_list?page=${this.page}&size=12`)
+        .get(this.host + `vitor/get_mic_list?page=${this.page}&size=12&keywords=${this.keywords}`)
         .then((res) => {
           that.disabled=false
           that.loading=false
