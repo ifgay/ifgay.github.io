@@ -1,5 +1,6 @@
 <template>
-  <div v-infinite-scroll="loadCapitalList" infinite-scroll-disabled="disabled">
+  <div style="oveflow:hidden" class="pay_space"  v-infinite-scroll="loadCapitalList"
+          infinite-scroll-disabled="disabled">
     <el-tabs v-model="activeName" @tab-click="onTabChange">
       <el-tab-pane label="卡密支付" name="keypay">
         <div class="fill_box flex_center" style="min-height: 300px">
@@ -22,7 +23,11 @@
       </el-tab-pane>
       <el-tab-pane label="区块链支付" name="blockpay"> </el-tab-pane>
       <el-tab-pane label="消费记录" name="record">
-        <div style="margin-left: 60px">
+
+        <div
+          class="record_cel"
+         
+        >
           <el-timeline>
             <el-timeline-item
               v-for="(item, index) in capitalLogs"
@@ -41,6 +46,7 @@
             </el-timeline-item>
           </el-timeline>
         </div>
+
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -50,7 +56,7 @@ let that;
 export default {
   created() {
     that = this;
-    if(this.activeName=='record') this.onTabChange()
+    if (this.activeName == "record") this.onTabChange();
   },
   data() {
     return {
@@ -121,3 +127,18 @@ export default {
   },
 };
 </script>
+
+<style lang='scss'>
+.record_cel {
+  margin-left: 60px;
+  width: 100%;
+}
+.pay_space{
+  .el-tabs__header{
+    position: sticky;
+    top: 0;
+    background: var(--light);
+    z-index: 90000;
+  }
+}
+</style>

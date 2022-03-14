@@ -38,9 +38,7 @@
       <h2
         :style="{
           'border-bottom':
-            tabActive == 0
-              ? '5px var(--main) solid'
-              : '5px transparent solid',
+            tabActive == 0 ? '5px var(--main) solid' : '5px transparent solid',
         }"
         @mouseover="tabActive = 0"
       >
@@ -99,12 +97,16 @@
 
       <div v-for="(item, index) in feComment" :key="index">
         <div class="comment_item flex_between">
-          <img :src="`./icon/hd/${item.user_hd}.svg`" class="df_img" />
           <div class="comment_info">
-            <small>{{ item.nikname }}</small
-            >&nbsp;&nbsp;<small>{{ item.comment_time }}</small>
-            <br />
-            {{ item.comment_content }}
+            <div class="flex_start">
+              <img :src="`./icon/hd/${item.user_hd}.svg`" class="df_img" />
+              <small>{{ item.nikname }}</small
+              >&nbsp;&nbsp;<small>{{ item.comment_time }}</small>
+            </div>
+
+            <span style="font-size: 13px">
+              {{ item.comment_content }}
+            </span>
           </div>
           <div class="right_col_comm">
             <el-rate
@@ -142,14 +144,20 @@
           v-for="(child, k) in item.children"
           :key="k"
         >
-          <img :src="`./icon/hd/${child.user_hd}.svg`" class="df_img" />
+         
           <div class="comment_info">
-            <small
-              >{{ child.nikname
-              }}{{ child.is_reply ? "回复" + child.face_user_name : "" }}</small
-            >&nbsp;&nbsp;<small>{{ child.comment_time }}</small>
-            <br />
-            {{ child.comment_content }}
+            <div class="flex_start">
+               <img :src="`./icon/hd/${child.user_hd}.svg`" class="df_img" />
+              <small
+                >{{ child.nikname
+                }}{{
+                  child.is_reply ? "回复" + child.face_user_name : ""
+                }}</small
+              >&nbsp;&nbsp;<small>{{ child.comment_time }}</small>
+            </div>
+            <span style="font-size: 13px">
+              {{ child.comment_content }}
+            </span>
           </div>
           <div class="right_col_comm">
             <el-rate
@@ -405,13 +413,13 @@ export default {
       rulesReply: {
         feCommentContent: [
           { required: true, message: "评论内容不能为空" },
-          { min: 3, max: 205, message: "长度在 1 到 205 个字符" },
+          { min: 3, max: 125, message: "长度在 1 到 125 个字符" },
         ],
       },
       rulesComment: {
         feCommentContent: [
           { required: true, message: "评论内容不能为空" },
-          { min: 3, max: 205, message: "长度在 1 到 205 个字符" },
+          { min: 3, max: 125, message: "长度在 1 到 125 个字符" },
         ],
       },
     };
@@ -441,11 +449,12 @@ export default {
   min-height: 70px;
   .comment_info {
     width: 73%;
+    word-break: break-all;
   }
   .df_img {
     width: 24px;
     height: 24px;
-    margin-right: 20px;
+    margin-right: 4px;
   }
   .right_col_comm {
     color: var(--main);

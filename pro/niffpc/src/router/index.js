@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import download from '../views/download.vue'
+import fe from '../views/fe.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     redirect: to => {
-      return 'download'
+      return 'fe'
     }
   },
   {
-    path: '/download',
-    name:'download',
-    component:download
+    path: '/fe',
+    name:'fe',
+    component:fe
   },
   {
     path: '/readme',
@@ -26,9 +26,9 @@ const routes = [
     component: () => import('../views/script.vue')
   },
   {
-    path: '/update',
-    name: 'update',
-    component: () => import('../views/update.vue')
+    path: '/chat',
+    name: 'chat',
+    component: () => import('../views/chat.vue')
   },
   {
     path: '/setting',
@@ -54,6 +54,16 @@ const routes = [
     path:'/pay',
     name: 'pay',
     component: () => import('../views/pay.vue')
+  },
+  {
+    path:'/download',
+    name: 'download',
+    component: () => import('../views/download.vue')
+  },
+  {
+    path:'/report',
+    name: 'report',
+    component: () => import('../views/report.vue')
   }
 ]
 

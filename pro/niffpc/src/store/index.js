@@ -9,7 +9,8 @@ export default new Vuex.Store({
       account:'',
       user_hd:1,
       is_truely:0,
-      nikname:''
+      nikname:'',
+      id:''
     },
     keywords:'',
   },

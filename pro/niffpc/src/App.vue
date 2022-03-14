@@ -127,24 +127,20 @@
 
         <el-popover placement="bottom" width="60" trigger="click">
           <div class="set_mute">
-            <li>
+            <li @click="$router.push('download')">
               <i class="el-icon-s-tools"></i>
-              软件设置
+              下载管理
             </li>
-            <li>
-              <i class="el-icon-share"></i>
-              分享好友
-            </li>
-            <li>
-              <i class="el-icon-s-opportunity"></i>
+            <li  @click="$router.push('report')">
+              <i class="el-icon-s-opportunity" ></i>
               反馈建议
             </li>
           </div>
 
           <i class="el-icon-s-operation icon" slot="reference"></i>
         </el-popover>
-        <i class="el-icon-minus icon"></i>
-        <i class="el-icon-close icon"></i>
+        <i class="el-icon-minus icon" @click="$ipc.send('short_cmd_call','window_hidden')"></i>
+        <i class="el-icon-close icon" @click="$ipc.send('short_cmd_call','window_close')"></i>
       </div>
     </div>
     <div class="main_container">
@@ -231,23 +227,23 @@ export default {
         },
         {
           name: "应用",
-          path: "download",
+          path: "fe",
         },
         {
           name: "脚本",
           path: "script",
         },
         {
-          name: "更新",
-          path: "update",
+          name: "讨论",
+          path: "chat",
         },
       ],
     };
   },
   methods: {
     searchAct(v) {
-      if (this.$route.name != "download" && this.$route.name != "script") {
-        this.$router.push("download");
+      if (this.$route.name != "fe" && this.$route.name != "script") {
+        this.$router.push("fe");
       }
     },
     exitLogin() {
@@ -397,6 +393,8 @@ li {
   --red: #fe0000; //高亮颜色
   --black: #2c2c2c;
   --light: #fff;
+  --blue:#007bff;
+  --green:#28a745;
 }
 
 ::-webkit-scrollbar {

@@ -45,7 +45,7 @@ export default {
       ifram.src = that.micInfo.mic_src;
       setTimeout(() => {
         that.loading = false;
-        ifram.contentWindow.ipc = "ipc";
+        ifram.contentWindow.ipc = that.$ipc;
         console.log(ifram.contentWindow.ipc);
       }, 500);
     },

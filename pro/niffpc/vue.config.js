@@ -1,4 +1,6 @@
 module.exports={
     runtimeCompiler: true,
-    publicPath: './'
+    publicPath: './',
+    outputDir:'../niffpc-ele/dist',
+    assetsDir:'static'
 }

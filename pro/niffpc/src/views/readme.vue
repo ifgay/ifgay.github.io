@@ -1,5 +1,5 @@
 <template>
-    <div>hell
+    <div>
         
     </div>
 </template>
