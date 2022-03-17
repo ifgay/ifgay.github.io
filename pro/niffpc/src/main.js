@@ -29,7 +29,7 @@ if(!window.ipcRender){
 
 Vue.prototype.$ipc=window.ipcRender
 Vue.prototype.updateUserInfo = (that) => {
-  that.axios.get(that.host + "index/get_user_info").then((res) => {
+  that.axios.get("index/get_user_info").then((res) => {
     if (res.success) {
       that.$store.state.userInfo = res.data;
     }

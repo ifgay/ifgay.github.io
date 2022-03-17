@@ -217,7 +217,7 @@ export default {
     that = this;
     this.loading = true;
     //初始化几条消息保证滚动加载进行
-    this.axios.get(this.host + "index/get_chat_init").then((res) => {
+    this.axios.get( "index/get_chat_init").then((res) => {
       if (res.success) {
         that.chatRows = res.data;
         that.loading = false;
@@ -238,7 +238,7 @@ export default {
       let data = new FormData();
       data.append("file", file);
       this.fileUploadingCount++
-      this.axios.post(this.host + `index/save_file_fall`, data).then((res) => {
+      this.axios.post( `index/save_file_fall`, data).then((res) => {
         if (res.success) {
           that.fileUploadingCount--
           let fileType = res.data.split(".")[1];
@@ -264,7 +264,7 @@ export default {
       if (show_loading) this.loading = true;
       lockAjax = true;
       this.axios
-        .get(this.host + `index/get_chat_rows?is_after=${is_after}&id=${id}`)
+        .get( `index/get_chat_rows?is_after=${is_after}&id=${id}`)
         .then((res) => {
           that.loading = false;
           if (res.success) {
@@ -293,7 +293,7 @@ export default {
         return false;
       }
       this.axios
-        .post(this.host + "index/save_mes_dis", {
+        .post( "index/save_mes_dis", {
           message: this.message,
           chat_file_arr: JSON.stringify(this.fileUploadQuu),
           chat_img_arr: JSON.stringify(this.imgUploadWind),

@@ -107,7 +107,7 @@ export default {
       that.loading = true;
       this.axios
         .get(
-          this.host +
+          
             `vitor/get_fe_list?page=${this.page}&size=18&keywords=${that.keywords}`
         )
         .then((res) => {

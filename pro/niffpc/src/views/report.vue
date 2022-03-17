@@ -10,10 +10,8 @@
       <el-form-item prop="report_maile" label="反馈内容">
         <el-input type="textarea" v-model="form.report_maile"></el-input>
       </el-form-item>
-      <el-button type="primary" round>提交反馈</el-button>
+      <el-button type="primary" @click="reportMail" round>提交反馈</el-button>
     </el-form>
-
-    
   </div>
 </template>
 <script>
@@ -40,12 +38,17 @@ export default {
     reportMail() {
       let that = this;
       this.axios
-        .post(this.host + "index/save_report_maile", this.form)
+        .post( "index/save_report_maile", this.form)
         .then((res) => {
           if (res.success) {
             that.$message({
+              type: "success",
               message: " (*￣(エ)￣)提交成功,谢谢的反馈。",
             });
+            that.form = {
+              report_maile: "",
+              report_type: "1",
+            };
           }
         });
     },

@@ -248,14 +248,14 @@ export default {
     },
     exitLogin() {
       localStorage.removeItem("token");
-      //this.axios.get(this.host + "index/test")
+      //this.axios.get( "index/test")
       this.$store.state.userInfo.account = "";
       this.$store.state.userInfo.nikname = "";
     },
     hdPiker(i) {
       this.$store.state.userInfo.user_hd = i;
       this.axios
-        .get(this.host + "index/set_user_hd?user_hd=" + i)
+        .get( "index/set_user_hd?user_hd=" + i)
         .then((res) => {
           that.$message({
             type: "success",
@@ -277,7 +277,7 @@ export default {
       this.$refs.userForm.validate((valid) => {
         if (valid) {
           that.axios
-            .post(this.host + "login/login", this.userInfoForm)
+            .post( "login/login", this.userInfoForm)
             .then((res) => {
               if (res.success) {
                 that.$message({ message: "登录成功", type: "success" });
@@ -298,7 +298,7 @@ export default {
       this.$refs.userForm.validate((valid) => {
         if (valid) {
           that.axios
-            .post(this.host + "login/signup", this.userInfoForm)
+            .post( "login/signup", this.userInfoForm)
             .then((res) => {
               if (res.success) {
                 that.loginAct();
@@ -318,6 +318,7 @@ export default {
 
     this.axios.interceptors.request.use(
       function (config) {
+        config.url = this.host + config.url;
         config.headers.Token = localStorage.getItem("token") || "-9";
         return config;
       },

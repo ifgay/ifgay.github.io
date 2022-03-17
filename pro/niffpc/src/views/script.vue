@@ -96,7 +96,7 @@ export default {
       that.disabled = true;
       that.loading = true;
       this.axios
-        .get(this.host + `vitor/get_mic_list?page=${this.page}&size=12&keywords=${this.keywords}`)
+        .get( `vitor/get_mic_list?page=${this.page}&size=12&keywords=${this.keywords}`)
         .then((res) => {
           that.disabled=false
           that.loading=false

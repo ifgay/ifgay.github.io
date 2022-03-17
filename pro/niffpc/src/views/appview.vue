@@ -134,6 +134,13 @@
               >
                 <img src="../assets/comment.svg" /><span>回复</span>
               </p>
+              <p
+                class="flex_center"
+                @click="removeComm(item.id)"
+                v-if="item.user_id == $store.state.userInfo.id"
+              >
+                <img src="../assets/dele.svg" />删除
+              </p>
             </span>
           </div>
         </div>
@@ -144,10 +151,9 @@
           v-for="(child, k) in item.children"
           :key="k"
         >
-         
           <div class="comment_info">
             <div class="flex_start">
-               <img :src="`./icon/hd/${child.user_hd}.svg`" class="df_img" />
+              <img :src="`./icon/hd/${child.user_hd}.svg`" class="df_img" />
               <small
                 >{{ child.nikname
                 }}{{
@@ -186,6 +192,9 @@
                 @click="replyEditOpen(item.id, child.nikname)"
               >
                 <img src="../assets/comment.svg" /><span>回复</span>
+              </p>
+              <p class="flex_center" @click="removeComm(child.id)"  v-if="child.user_id == $store.state.userInfo.id">
+                <img src="../assets/dele.svg" />删除
               </p>
             </span>
           </div>
@@ -264,7 +273,7 @@ export default {
     getFeDetails() {
       this.axios
         .get(
-          this.host + `vitor/fe_details_own?id=${this.$route.params.id || 1}`
+           `vitor/fe_details_own?id=${this.$route.params.id || 1}`
         )
         .then((res) => {
           that.feAppInfo = res.data;
@@ -282,7 +291,25 @@ export default {
         });
       });
       this.activeNiceCommentId = commentId;
-      this.axios.get(this.host + `index/inc_comment_nice?id=${commentId}`);
+      this.axios.get( `index/inc_comment_nice?id=${commentId}`);
+    },
+    removeComm(id) {
+      this.$confirm("你确定要删除你的评论吗？", "删除确认", {
+        distinguishCancelAndClose: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      }).then(() => {
+        that.axios.get( `index/remove_comm_id?id=${id}`).then((res) => {
+          if (res.success) {
+            that.resetCommList();
+          }
+        });
+      });
+    },
+    resetCommList() {
+      that.feComment = [];
+      that.page = 1;
+      that.getCommentList(1);
     },
     loadMoreCommentPull(itemId, itemIndex) {
       if (this.loadMoreCommentGrant) return;
@@ -292,7 +319,7 @@ export default {
       );
       this.axios
         .get(
-          this.host +
+          
             `vitor/get_comment_reply?page=${
               (pageIndexCommentArea == 0 ? 1 : pageIndexCommentArea) + 1
             }&size=5&id=${itemId}`
@@ -311,7 +338,7 @@ export default {
       this.disabled = true;
       this.axios
         .get(
-          this.host +
+          
             `vitor/get_comment_list?id=${that.feId}&page=${this.page}&size=7`
         )
         .then((res) => {
@@ -338,15 +365,13 @@ export default {
       this.$refs.formByReply.validate((valid) => {
         if (valid) {
           this.axios
-            .post(this.host + `index/save_user_comment`, feTruans)
+            .post( `index/save_user_comment`, feTruans)
             .then((res) => {
               that.$message({
                 type: "success",
                 message: "回复已发送!",
               });
-              that.feComment = [];
-              that.page = 1;
-              that.getCommentList(1);
+              that.resetCommList();
               that.dialogReplyVisible = false;
             });
         }
@@ -371,15 +396,13 @@ export default {
       this.$refs.formByComment.validate((valid) => {
         if (valid) {
           this.axios
-            .post(this.host + `index/save_user_comment`, feTruans)
+            .post( `index/save_user_comment`, feTruans)
             .then((res) => {
               that.$message({
                 type: "success",
                 message: "评论发表成功!",
               });
-              that.feComment = [];
-              that.page = 1;
-              that.getCommentList(1);
+              that.resetCommList();
             });
         }
       });

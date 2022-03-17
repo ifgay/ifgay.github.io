@@ -27,7 +27,7 @@ export default {
     loadUserInfo() {
       let that = this;
       that.processTips = "获取登录信息中...";
-      that.axios.get(that.host + `index/get_user_info`).then((res) => {
+      that.axios.get(`index/get_user_info`).then((res) => {
         if (res.data && res.data.account) {
           that.loadAssetsIframe();
         } else {
@@ -62,7 +62,7 @@ export default {
     //获取脚本信息
     that = this;
     this.axios
-      .get(this.host + `vitor/get_mic_one?id=${this.$route.params.id || 1}`)
+      .get( `vitor/get_mic_one?id=${this.$route.params.id || 1}`)
       .then((res) => {
         that.micInfo = res.data;
         //找一下有没有支付过
@@ -88,7 +88,7 @@ export default {
                         } else {
                           that.axios
                             .get(
-                              this.host +
+                              
                                 `index/buy_mic_app?id=${res.data.mic_id}&price=${res.data.mic_price}`
                             )
                             .then((from) => {

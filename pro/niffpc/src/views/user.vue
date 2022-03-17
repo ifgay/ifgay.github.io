@@ -148,7 +148,7 @@ export default {
       this.$refs.formUsers.validate((valid) => {
         if (valid) {
           that.axios
-            .post(this.host + `index/save_user_info`, {
+            .post( `index/save_user_info`, {
               nikname: this.form.nikname,
               account: this.form.account,
             })
@@ -167,7 +167,7 @@ export default {
     },
     hdPiker(i) {
       this.$store.state.userInfo.user_hd = i;
-      this.axios.get(this.host + "index/set_user_hd?user_hd=" + i);
+      this.axios.get( "index/set_user_hd?user_hd=" + i);
     },
     verifyMailAddr() {
       this.second = 120;
@@ -180,7 +180,7 @@ export default {
         that.second--;
       }, 1000);
       this.verifyDialogVisible = true;
-      this.axios.get(this.host + `index/get_verify_id`).then((res) => {
+      this.axios.get( `index/get_verify_id`).then((res) => {
         if (res.success) {
           that.verifyId = res.data.id;
         }else{
@@ -196,7 +196,7 @@ export default {
       setTimeout(() => {
         that.axios
           .get(
-            this.host +
+            
               `index/verify_code_byid?code=${this.verifyCode}&id=${that.verifyId}`
           )
           .then((res) => {

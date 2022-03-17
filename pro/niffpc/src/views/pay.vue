@@ -80,7 +80,7 @@ export default {
     loadCapitalList() {
       that.disabled = true;
       this.axios
-        .get(this.host + `index/get_capital_list?page=${this.page}&size=10`)
+        .get( `index/get_capital_list?page=${this.page}&size=10`)
         .then((res) => {
           that.disabled = false;
           that.capitalLogs = that.capitalLogs.concat(res.data);
@@ -102,10 +102,9 @@ export default {
     recharge() {
       this.cardKeyLoading = true;
       this.cardKeyLoadingText = "查询中";
-
       setTimeout(() => {
         this.axios
-          .get(this.host + `index/charge_by_card?key=${this.cardKey}`)
+          .get( `index/charge_by_card?key=${this.cardKey}`)
           .then((res) => {
             if (res.success) {
               that.updateUserInfo(that);
