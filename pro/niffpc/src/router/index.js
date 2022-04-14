@@ -60,11 +60,6 @@ const routes = [
     name: 'download',
     component: () => import('../views/download.vue')
   },
-  {
-    path:'/report',
-    name: 'report',
-    component: () => import('../views/report.vue')
-  }
 ]
 
 const router = new VueRouter({

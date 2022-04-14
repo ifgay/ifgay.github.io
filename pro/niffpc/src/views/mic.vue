@@ -49,11 +49,15 @@ export default {
         console.log(ifram.contentWindow.ipc);
       }, 500);
     },
+    loadPyEn(){
+
+    },
     authFade() {
-      if (that.micInfo.mic_auth.split("").includes("1")) {
+      if (that.micInfo.mic_auth.split(",").includes("1")) {
         that.loadUserInfo();
-      } else {
-        that.loadAssetsIframe();
+      }
+       if (that.micInfo.mic_auth.split(",").includes("2")) {
+        that.loadPyEn();
       }
     },
   },

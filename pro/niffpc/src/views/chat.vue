@@ -199,7 +199,7 @@ export default {
   },
   mounted() {
     clockListenMes = setInterval(() => {
-      this.getChatRows(that.chatRows[that.chatRows.length - 1].chat_id, 1);
+      that.getChatRows(that.chatRows[that.chatRows.length - 1].chat_id, 1);
     }, 6000);
   },
   data() {

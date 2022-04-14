@@ -318,7 +318,7 @@ export default {
 
     this.axios.interceptors.request.use(
       function (config) {
-        config.url = this.host + config.url;
+        config.url = that.host + config.url;
         config.headers.Token = localStorage.getItem("token") || "-9";
         return config;
       },
